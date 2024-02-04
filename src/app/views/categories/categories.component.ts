@@ -15,7 +15,7 @@ import {Category} from "../../models/category";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit{
-  categories$: Observable<CategoryType[]> = this.dataHandlerService.getCategories()
+  categories$: Observable<CategoryType[]> = this.dataHandlerService.categories$.pipe()
 
   constructor(private dataHandlerService: DataHandlerService) {}
 
