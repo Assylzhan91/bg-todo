@@ -4,13 +4,24 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.cursor-pointer {
-  cursor: pointer;
+
+
+.table {
+  .no-cursor-pointer {
+    cursor: default;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  .completed {
+    text-decoration: line-through;
+    color: #797979;
+  }
+
+  .no-values {
+    color: #b7b7b7;
+  }
 }
-.no-cursor-pointer {
-  cursor: default;
-}
-.table .completed {
-  text-decoration: line-through;
-  color: #797979;
-}
+
+
