@@ -1,17 +1,14 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, delay, Observable, of} from "rxjs";
+import {BehaviorSubject, delay, Observable} from "rxjs";
 
 import {CategoryType, TaskType, TestData} from '../data/TestData';
 
 @Injectable()
 export class DataHandlerService {
   task$ = new BehaviorSubject<TaskType[]>([])
+  categories$ = new BehaviorSubject<CategoryType[]>(TestData.categories).asObservable().pipe(delay(1000))
 
   constructor() {
-  }
-
-  getCategories(): Observable<CategoryType[]> {
-    return of(TestData.categories).pipe(delay(1000))
   }
 
   fillTasks(): Observable<TaskType[]> {
