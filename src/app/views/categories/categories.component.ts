@@ -16,12 +16,15 @@ import {Category} from "../../models/category";
 })
 export class CategoriesComponent implements OnInit{
   categories$: Observable<CategoryType[]> = this.dataHandlerService.categories$.pipe()
+  selectedCategories!: CategoryType
 
   constructor(private dataHandlerService: DataHandlerService) {}
 
   ngOnInit(): void {}
 
   showTaskByCategory(category: Category): void {
+    this.selectedCategories = category
     this.dataHandlerService.fillTaskByCategory(category)
   }
+
 }
