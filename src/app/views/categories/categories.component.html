@@ -7,7 +7,12 @@
   <div class="sidebar-wrapper">
     <ul class="nav">
       <ng-container *ngIf="categories$ | async as categories; else loading">
-        <li *ngFor="let category of  categories" class="nav-item" (click)="showTaskByCategory(category)">
+        <li
+          *ngFor="let category of  categories;" class="nav-item cursor-pointer"
+          (click)="showTaskByCategory(category)"
+          [class.active]="category === selectedCategories"
+          [class.no-cursor-pointer]="category === selectedCategories"
+        >
           <a class="nav-link">
             <i class="material-icons">dashboard</i>
             <p>{{ category.title }}</p>

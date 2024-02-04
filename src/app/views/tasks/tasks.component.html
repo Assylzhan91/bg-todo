@@ -12,18 +12,18 @@
                         <th>Title</th>
                         <th>Categories</th>
                         <th>Priority</th>
-                        <th>Status</th>
                         <th>Date</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let task of tasks; index as idx">
                         <td>{{ idx + 1 }}</td>
                         <td>{{ task.title }}</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>{{ task.date | date: 'mediumDate' }}</td>
+                        <td>{{ task.category?.title || "No category" }}</td>
+                        <td>{{ task.priority?.title || "No priority"}}</td>
+                        <td>{{ (task.date | date: 'mediumDate') || 'No date' }}</td>
+                        <td>{{ task.completed }}</td>
                     </tr>
                     </tbody>
                 </table>
