@@ -1,23 +1,19 @@
-type CategoryType = {
+export type CategoryType = {
   id: number;
   title: string;
 }
 
-type PriorityType = CategoryType & {
+export type PriorityType = CategoryType & {
   color: string
 }
 
-type TaskType = CategoryType & {
+export type TaskType = CategoryType & {
   completed: boolean;
   priority?: PriorityType;
   category?: CategoryType;
   date?: Date;
 }
 
-/*type PriorityType = {
-  id: number;
-  title: string;
-}*/
 
 export class TestData {
 
