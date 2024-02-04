@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 
 import {DataHandlerService} from "../../services/data-handler.service";
 import {CategoryType} from "../../data/TestData";
+import {Category} from "../../models/category";
 
 @Component({
   selector: 'app-categories',
@@ -18,6 +19,9 @@ export class CategoriesComponent implements OnInit{
 
   constructor(private dataHandlerService: DataHandlerService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
+  showTaskByCategory(category: Category): void {
+    this.dataHandlerService.getTaskByCategory(category)
+  }
 }
