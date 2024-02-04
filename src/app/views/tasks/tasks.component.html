@@ -19,14 +19,19 @@
                     <tbody>
                     <tr *ngFor="let task of tasks; index as idx">
                         <td>{{ idx + 1 }}</td>
-                        <td>{{ task.title }}</td>
+                        <td [class.completed]="task.completed" >{{ task.title }}</td>
                         <td>{{ task.category?.title || "No category" }}</td>
                         <td>{{ task.priority?.title || "No priority"}}</td>
                         <td>{{ (task.date | date: 'mediumDate') || 'No date' }}</td>
                         <td>
                             <div class="form-check text-center">
                                 <label class="form-check-label">
-                                    <input [checked]="task.completed" class="form-check-input" type="checkbox">
+                                    <input
+                                        (change)="task.completed != task.completed"
+                                        [(ngModel)]="task.completed"
+                                        [checked]="task.completed"
+                                        class="form-check-input" type="checkbox"
+                                    >
                                     <span class="form-check-sign"><span class="check"></span></span>
                                 </label>
                             </div>
