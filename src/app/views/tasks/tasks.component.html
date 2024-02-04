@@ -23,7 +23,14 @@
                         <td>{{ task.category?.title || "No category" }}</td>
                         <td>{{ task.priority?.title || "No priority"}}</td>
                         <td>{{ (task.date | date: 'mediumDate') || 'No date' }}</td>
-                        <td>{{ task.completed }}</td>
+                        <td>
+                            <div class="form-check text-center">
+                                <label class="form-check-label">
+                                    <input [checked]="task.completed" class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"><span class="check"></span></span>
+                                </label>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
