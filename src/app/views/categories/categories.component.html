@@ -6,12 +6,18 @@
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
-      <li *ngFor="let category of  categories$ | async" class="nav-item">
-        <a class="nav-link" href="./dashboard.html">
-          <i class="material-icons">dashboard</i>
-          <p>{{ category.title }}</p>
-        </a>
-      </li>
+      <ng-container *ngIf="categories$ | async as categories; else loading">
+        <li *ngFor="let category of  categories" class="nav-item" (click)="showTaskByCategory(category)">
+          <a class="nav-link">
+            <i class="material-icons">dashboard</i>
+            <p>{{ category.title }}</p>
+          </a>
+        </li>
+      </ng-container>
     </ul>
   </div>
 </div>
+
+<ng-template #loading>
+  <p class="text-center">Loading...</p>
+</ng-template>
