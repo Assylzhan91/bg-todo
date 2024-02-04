@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
-import {DataHandlerService} from "../../services/data-handler.service";
 import {Observable} from "rxjs";
+
+import {DataHandlerService} from "../../services/data-handler.service";
 import {CategoryType} from "../../data/TestData";
 
 @Component({
@@ -17,9 +18,6 @@ export class CategoriesComponent implements OnInit{
 
   constructor(private dataHandlerService: DataHandlerService) {}
 
-  ngOnInit() {
-    /*this.categories = this.dataHandlerService.getCategories()
-    this.categories.subscribe(console.log)*/
-  }
+  ngOnInit() {}
 
 }
