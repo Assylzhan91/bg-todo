@@ -1,56 +1,53 @@
-<ng-container *ngIf="tasks$ | async as tasks">
-    <div class="card">
+
+  <div class="card">
         <div class="card-header card-header-warning">
             <h4 class="card-title text-center">List og task</h4>
         </div>
         <div class="card-body table-responsive">
             <ng-container *ngIf="tasks.length;else empty">
-                <table class="table table-hover">
-                    <thead class="text-warning">
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Categories</th>
-                        <th>Priority</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr
-                        *ngFor="let task of tasks; index as idx"
-                    >
-                        <td>{{ idx + 1 }}</td>
-                        <td [class.completed]="task.completed" >{{ task.title }}</td>
-                        <td [class.no-values]="!task.category">
-                            {{ task.category?.title || "No category" }}
-                        </td>
-                        <td [class.no-values]="!task.priority">
-                            {{ task.priority?.title || "No priority"}}
-                        </td>
-                        <td [class.no-values]="!task.date">
-                            {{ (task.date | date: 'mediumDate') || 'No date' }}
-                        </td>
-                        <td>
-                            <div class="form-check text-center">
-                                <label class="form-check-label">
-                                    <input
-                                        (change)="task.completed != task.completed"
-                                        [(ngModel)]="task.completed"
-                                        [checked]="task.completed"
-                                        class="form-check-input" type="checkbox"
-                                    >
-                                    <span class="form-check-sign"><span class="check"></span></span>
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
+                <table class="table table-hover" [dataSource]="dataSource" mat-table >
+
+                  <ng-container matColumnDef="color">
+                    <th *matHeaderCellDef mat-header-cell></th>
+                    <th mat-cell *matCellDef="let task" [style.background-color]="getPriorityColor(task)"></th>
+                  </ng-container>
+                  <ng-container matColumnDef="id">
+                    <th *matHeaderCellDef mat-header-cell></th>
+                    <th mat-cell *matCellDef="let idx = index">{{ idx + 1 }}</th>
+                  </ng-container>
+                  <ng-container matColumnDef="title">
+                    <th *matHeaderCellDef mat-header-cell></th>
+                    <th mat-cell *matCellDef="let task" [class.completed]="task.completed">{{ task .title }}</th>
+                  </ng-container>
+                  <ng-container matColumnDef="date">
+                    <th *matHeaderCellDef mat-header-cell></th>
+                    <th mat-cell *matCellDef="let task" [ngClass]="{
+                    'completed': task.completed, 'no-date': task.data == null
+                    }">{{ task .date | date: "medium" }}</th>
+                  </ng-container>
+                  <ng-container matColumnDef="priority">
+                    <th *matHeaderCellDef mat-header-cell></th>
+                    <th mat-cell *matCellDef="let task"  [ngClass]="{
+                    'completed': task.completed, 'priority': task.priority == null}">
+                      {{ task.priority ? task.priority?.title : 'No priority' }}
+                    </th>
+                  </ng-container>
+                  <ng-container matColumnDef="category">
+                    <th *matHeaderCellDef mat-header-cell></th>
+                    <th mat-cell *matCellDef="let task"  [ngClass]="{
+                    'completed': task.completed, 'category': task.category == null}">
+                      {{ task.priority ? task.category?.title : 'No category' }}
+
+                    </th>
+                  </ng-container>
+
+                  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                  <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
                 </table>
             </ng-container>
         </div>
     </div>
-</ng-container>
+
 <ng-template #empty>
 <p class="text-center text-gray">Empty</p>
 </ng-template>
