@@ -11,9 +11,9 @@ export class DataHandlerService {
   constructor() {
   }
 
-  fillTasks(): Observable<TaskType[]> {
+  fillTasks(): TaskType[] {
     this.task$.next(TestData.tasks)
-    return this.task$.asObservable()
+    return this.task$.getValue()
   }
 
   fillTaskByCategory(category: CategoryType): void {
