@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 
 import {TaskType} from "../../data/TestData";
 import {DataHandlerService} from "../../services/data-handler.service";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatSortModule} from "@angular/material/sort";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
+import {MatSort, MatSortModule} from "@angular/material/sort";
 
 @Component({
   selector: 'app-tasks',
@@ -23,18 +23,24 @@ import {MatSortModule} from "@angular/material/sort";
   styleUrl: './tasks.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TasksComponent implements OnInit{
+export class TasksComponent implements OnInit, AfterViewInit{
   tasks: TaskType[] = this.dataHandlerService.fillTasks()
 
   displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category']
   dataSource!: MatTableDataSource<TaskType>
-
+  @ViewChild(MatPaginator, {static: false}) private paginator!: MatPaginator
+  @ViewChild(MatSort, {static: false}) private sort!: MatSort
   constructor(private dataHandlerService: DataHandlerService) {}
 
   ngOnInit(): void {
-    this.dataSource  = new MatTableDataSource()
-    this.dataSource.data = this.tasks
+    this.dataSource = new MatTableDataSource()
+    this.refreshTable()
   }
+
+  ngAfterViewInit(): void {
+    this.addTableObjects()
+  }
+
 
   getPriorityColor(task: TaskType): string {
     if (task.completed) {
@@ -45,5 +51,27 @@ export class TasksComponent implements OnInit{
       return  task.priority.color
     }
     return '#fff'
+  }
+
+  refreshTable(): void{
+    this.dataSource.data = this.tasks
+    this.addTableObjects()
+    this.dataSource.sortingDataAccessor = (task: TaskType, colName) =>{
+      switch (colName) {
+        case 'priority': return task.priority?.id || null
+
+        case 'category': return task.category?.id || null
+
+        case 'date': return Number(task?.date) || null
+
+        default: return null
+      }
+    }
+  }
+
+
+  addTableObjects(): void{
+    this.dataSource.sort = this.sort
+    this.dataSource.paginator = this.paginator
   }
 }
