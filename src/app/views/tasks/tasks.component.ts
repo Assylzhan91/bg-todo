@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 
