@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 
@@ -7,6 +15,7 @@ import {DataHandlerService} from "../../services/data-handler.service";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
+
 
 @Component({
   selector: 'app-tasks',
@@ -21,20 +30,27 @@ import {MatSort, MatSortModule} from "@angular/material/sort";
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent implements OnInit, AfterViewInit{
-  tasks: TaskType[] = this.dataHandlerService.fillTasks()
-
+  tasks: TaskType[] = []
   displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category']
+
   dataSource!: MatTableDataSource<TaskType>
+
   @ViewChild(MatPaginator, {static: false}) private paginator!: MatPaginator
   @ViewChild(MatSort, {static: false}) private sort!: MatSort
-  constructor(private dataHandlerService: DataHandlerService) {}
+
+  cdr = inject(ChangeDetectorRef)
+  dataHandlerService = inject(DataHandlerService)
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource()
-    this.refreshTable()
+    this.dataHandlerService.getAllTasks$.subscribe( tasks => {
+      this.tasks = tasks
+      this.cdr.detectChanges()
+      this.refreshTable()
+    })
   }
 
   ngAfterViewInit(): void {
@@ -68,7 +84,6 @@ export class TasksComponent implements OnInit, AfterViewInit{
       }
     }
   }
-
 
   addTableObjects(): void{
     this.dataSource.sort = this.sort

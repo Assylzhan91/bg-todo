@@ -11,15 +11,15 @@ export interface TaskDAO extends CommonDAO<Task> {
     searchText: string,
     status: boolean,
     priority: Priority
-  ): Observable<Task[]>
+  ): Observable<Task[]> | unknown
 
-  getCompletedCountInCategory( category: Category): Observable<number>
+  getCompletedCountInCategory( category: Category): Observable<number> | unknown
 
-  getUncompletedCountInCategory( category: Category): Observable<number>
+  getUncompletedCountInCategory( category: Category): Observable<number>  | unknown
 
-  getTotalCountInCategory( category: Category): Observable<number>
+  getTotalCountInCategory( category: Category): Observable<number> | unknown
 
-  getTotalCount(category: Category): Observable<number>
-  
+  getTotalCount(category: Category): Observable<number> | unknown
+
 
 }
