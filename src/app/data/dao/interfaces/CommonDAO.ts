@@ -1,13 +1,10 @@
 // CRUD
 
 export interface CommonDAO<T>{
-  add(item: T): T
+  add(item: T): T | unknown
 
-  getItem(id: number): T
+  delete(id: number): T  | unknown
 
-  delete(id: number): T
+  update(item: T): T  | unknown
 
-  update(item: T): T
-
-  update(item: T): T
 }

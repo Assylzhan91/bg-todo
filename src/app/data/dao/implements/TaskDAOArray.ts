@@ -1,48 +1,52 @@
 import {TaskDAO} from "../interfaces/TaskDAO";
 import {Task} from "../../../models/task";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Category} from "../../../models/category";
 import {Priority} from "../../../models/priority";
+import {TestData} from "../../TestData";
 
 export class TaskDAOArray implements TaskDAO {
-  add(item: Task): Observable<Task> {
+
+  getAll(): Observable<Task[]>{
+    return of(TestData.tasks);
+  }
+
+  add(item: Task): Observable<Task> | unknown{
     return undefined;
   }
 
-  delete(id: number): Observable<Task> {
+  delete(id: number): Observable<Task> | unknown{
     return undefined;
   }
 
-  get(id: number): Observable<Task> {
+  get(id: number): Observable<Task> | unknown{
     return undefined;
   }
 
-  getAll(): Observable<Task[]> {
+
+  getCompletedCountInCategory(category: Category): Observable<number> | unknown{
     return undefined;
   }
 
-  getCompletedCountInCategory(category: Category): Observable<number> {
+  getTotalCount(category: Category): Observable<number> | unknown{
     return undefined;
   }
 
-  getTotalCount(category: Category): Observable<number> {
+  getTotalCountInCategory(category: Category): Observable<number> | unknown{
     return undefined;
   }
 
-  getTotalCountInCategory(category: Category): Observable<number> {
+  getUncompletedCountInCategory(category: Category): Observable<number> | unknown{
     return undefined;
   }
 
-  getUncompletedCountInCategory(category: Category): Observable<number> {
+  search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> | unknown{
     return undefined;
   }
 
-  search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
+  update(item: Task): Observable<Task> | unknown{
     return undefined;
   }
 
-  update(item: Task): Observable<Task> {
-    return undefined;
-  }
 
 }
