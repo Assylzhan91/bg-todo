@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
 import {Observable} from "rxjs";
 
@@ -15,7 +15,7 @@ import {Category} from "../../models/category";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriesComponent implements OnInit{
-  categories$: Observable<CategoryType[]> = this.dataHandlerService.getAllCategories$
+  @Input() categories!: CategoryType[]
   selectedCategories!: CategoryType
 
   constructor(private dataHandlerService: DataHandlerService) {}

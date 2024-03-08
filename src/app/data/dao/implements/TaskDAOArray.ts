@@ -3,11 +3,11 @@ import {Task} from "../../../models/task";
 import {Observable, of} from "rxjs";
 import {Category} from "../../../models/category";
 import {Priority} from "../../../models/priority";
-import {TestData} from "../../TestData";
+import {TaskType, TestData} from "../../TestData";
 
 export class TaskDAOArray implements TaskDAO {
 
-  getAll(): Observable<Task[]>{
+  getAll(): Observable<TaskType[]>{
     return of(TestData.tasks);
   }
 
