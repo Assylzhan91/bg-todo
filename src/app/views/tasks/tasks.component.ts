@@ -1,21 +1,17 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
+  Component, Input,
   OnInit,
   ViewChild
 } from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
 import {FormsModule} from "@angular/forms";
-
-import {TaskType} from "../../data/TestData";
-import {DataHandlerService} from "../../services/data-handler.service";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 
+import {TaskType} from "../../data/TestData";
 
 @Component({
   selector: 'app-tasks',
@@ -33,7 +29,6 @@ import {MatSort, MatSortModule} from "@angular/material/sort";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksComponent implements OnInit, AfterViewInit{
-  tasks: TaskType[] = []
   displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category']
 
   dataSource!: MatTableDataSource<TaskType>
@@ -41,22 +36,16 @@ export class TasksComponent implements OnInit, AfterViewInit{
   @ViewChild(MatPaginator, {static: false}) private paginator!: MatPaginator
   @ViewChild(MatSort, {static: false}) private sort!: MatSort
 
-  cdr = inject(ChangeDetectorRef)
-  dataHandlerService = inject(DataHandlerService)
+  @Input() tasks!: TaskType[]
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource()
-    this.dataHandlerService.getAllTasks$.subscribe( tasks => {
-      this.tasks = tasks
-      this.cdr.detectChanges()
-      this.refreshTable()
-    })
+    this.fillTable()
   }
 
   ngAfterViewInit(): void {
     this.addTableObjects()
   }
-
 
   getPriorityColor(task: TaskType): string {
     if (task.completed) {
@@ -69,7 +58,7 @@ export class TasksComponent implements OnInit, AfterViewInit{
     return '#fff'
   }
 
-  refreshTable(): void{
+  fillTable(): void{
     this.dataSource.data = this.tasks
     this.addTableObjects()
     this.dataSource.sortingDataAccessor = (task: TaskType, colName) =>{

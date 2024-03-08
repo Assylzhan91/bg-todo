@@ -1,5 +1,9 @@
 <div class="wrapper">
-  <app-categories></app-categories>
+    <div class="sidebar" data-background-color="white" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
+      <ng-container *ngIf="categories$ | async as categories; else loading">
+        <app-categories [categories]="categories"></app-categories>
+      </ng-container>
+    </div>
   <div class="main-panel">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
@@ -74,7 +78,9 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <app-tasks></app-tasks>
+            <ng-container *ngIf="tasks$ | async as tasks; else loading">
+              <app-tasks [tasks]="tasks"></app-tasks>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -192,3 +198,7 @@
     </ul>
   </div>
 </div>
+
+<ng-template #loading>
+  <p class="text-center text-gray">Loading...</p>
+</ng-template>

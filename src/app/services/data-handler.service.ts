@@ -12,7 +12,7 @@ export class DataHandlerService {
   taskDAOArray =  inject(TaskDAOArray)
   categoryDAOArray =  inject(CategoryDAOArray)
 
-  getAllCategories$ = this.categoryDAOArray.getAll().pipe(delay(2000))
+  getAllCategories$ = this.categoryDAOArray.getAll().pipe(delay(3000))
   getAllTasks$ = this.taskDAOArray.getAll().pipe(delay(2000))
 
   fillTaskByCategory(category: CategoryType): void {
