@@ -7,7 +7,7 @@ import {DataHandlerService} from "./services/data-handler.service";
 import {TasksComponent} from "./views/tasks/tasks.component";
 import {TaskDAOArray} from "./data/dao/implements/TaskDAOArray";
 import {CategoryDAOArray} from "./data/dao/implements/CategoryDAOArray";
-import {Observable} from "rxjs";
+import {concat, concatAll, concatMap, filter, map, Observable, of, tap} from "rxjs";
 import {CategoryType} from "./data/TestData";
 
 @Component({
@@ -24,4 +24,13 @@ export class AppComponent {
   tasks$ = this.dataHandlerService.getAllTasks$
   categories$ = this.dataHandlerService.getAllCategories$
 
+  date: Date = new Date()
+
+  sorting (category: CategoryType): void{
+    if(category.id === 0){
+      this.tasks$ = this.dataHandlerService.getAllTasks$
+      return
+    }
+    this.tasks$ = this.dataHandlerService.getAllTasks$.pipe(map(tasks => tasks.filter(task=> task.category?.id == category.id)))
+  }
 }

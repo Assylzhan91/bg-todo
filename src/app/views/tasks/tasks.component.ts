@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component, Input,
-  OnInit,
+  OnInit, TemplateRef,
   ViewChild
 } from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
@@ -37,6 +37,7 @@ export class TasksComponent implements OnInit, AfterViewInit{
   @ViewChild(MatSort, {static: false}) private sort!: MatSort
 
   @Input() tasks!: TaskType[]
+  @Input() optionTemplate!: TemplateRef<any>
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource()

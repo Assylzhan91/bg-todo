@@ -18,6 +18,7 @@ export type TaskType = CategoryType & {
 export class TestData {
 
   static categories: CategoryType[] = [
+    {id: 0, title: 'Все'},
     {id: 1, title: 'Работа'},
     {id: 2, title: 'Семья'},
     {id: 3, title: 'Учеба'},

@@ -1,8 +1,18 @@
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
-      <ng-container *ngIf="categories$ | async as categories; else loading">
-        <app-categories [categories]="categories"></app-categories>
-      </ng-container>
+      <div class="logo">
+        <a class="simple-text logo-normal" href="http://www.creative-tim.com">
+          Creative Tim
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <app-categories
+          *ngIf="categories$ | async as categories; else loading"
+          [categories]="categories" [optionTemplate]="loading"
+          (selectedCategory)="sorting($event)"
+        >
+        </app-categories>
+      </div>
     </div>
   <div class="main-panel">
     <!-- Navbar -->
@@ -78,9 +88,15 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <ng-container *ngIf="tasks$ | async as tasks; else loading">
-              <app-tasks [tasks]="tasks"></app-tasks>
-            </ng-container>
+            <div class="card">
+              <div class="card-header card-header-warning">
+                <h4 class="card-title text-center">List og task</h4>
+              </div>
+              <div class="card-body table-responsive">
+                <app-tasks *ngIf="tasks$ | async as tasks; else loading" [tasks]="tasks" [optionTemplate]="loading">
+                </app-tasks>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -112,11 +128,7 @@
           </ul>
         </nav>
         <div class="copyright float-right">
-          &copy;
-          <script>
-            document.write(new Date().getFullYear())
-          </script>
-          , made with <i class="material-icons">favorite</i> by
+          &copy; {{  date.getFullYear() }} , made with <i class="material-icons">favorite</i> by
           <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
         </div>
       </div>
@@ -199,6 +211,6 @@
   </div>
 </div>
 
-<ng-template #loading>
-  <p class="text-center text-gray">Loading...</p>
+<ng-template #loading let-list="list">
+  <p class="text-center text-gray">{{ !list ? 'Loading...' : 'Empty' }}</p>
 </ng-template>
