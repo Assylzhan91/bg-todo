@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, delay } from "rxjs";
+import {BehaviorSubject, delay, Observable} from "rxjs";
 
-import {CategoryType, TaskType, TestData} from '../data/TestData';
+import {CategoryType, TaskType} from '../data/TestData';
 import {TaskDAOArray} from "../data/dao/implements/TaskDAOArray";
 import {CategoryDAOArray} from "../data/dao/implements/CategoryDAOArray";
+import {Priority} from "../models/priority";
 
 @Injectable()
 export class DataHandlerService {
@@ -15,7 +16,13 @@ export class DataHandlerService {
   getAllCategories$ = this.categoryDAOArray.getAll().pipe(delay(3000))
   getAllTasks$ = this.taskDAOArray.getAll().pipe(delay(2000))
 
-  fillTaskByCategory(category: CategoryType): void {
-    this.task$.next(TestData.tasks.filter((task) => task.category === category))
+  searchTasks(
+    searchTasks: CategoryType,
+    searchText: string | null,
+    status: boolean | null,
+    priority: Priority | null,
+  ): Observable<TaskType[]>{
+    return this.taskDAOArray.search(searchTasks, searchText, status, priority)
   }
+
 }
