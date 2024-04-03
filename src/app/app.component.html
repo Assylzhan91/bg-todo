@@ -9,7 +9,7 @@
         <app-categories
           *ngIf="categories$ | async as categories; else loading"
           [categories]="categories" [optionTemplate]="loading"
-          (selectedCategory)="sorting($event)"
+          (selectedCategory)="onSelectCategory($event)"
         >
         </app-categories>
       </div>

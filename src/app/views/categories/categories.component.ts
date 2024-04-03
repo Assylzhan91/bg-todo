@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
-import {Observable} from "rxjs";
 
-import {DataHandlerService} from "../../services/data-handler.service";
 import {CategoryType} from "../../data/TestData";
 import {Category} from "../../models/category";
 
@@ -21,16 +19,10 @@ export class CategoriesComponent implements OnInit{
 
   @Output() selectedCategory = new EventEmitter<CategoryType>()
 
-
-  constructor(private dataHandlerService: DataHandlerService) {}
-
-  ngOnInit(): void {
-    console.log(this.categories)
-  }
+  ngOnInit(): void {}
 
   showTaskByCategory(category: Category): void {
     this.selectedCategories = category
-    this.dataHandlerService.fillTaskByCategory(category)
     this.selectedCategory.emit(category)
   }
 
