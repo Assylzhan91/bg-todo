@@ -1,8 +1,8 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  Component, Input,
-  OnInit, TemplateRef,
+  Component, EventEmitter, Input,
+  OnInit, Output, TemplateRef,
   ViewChild
 } from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
@@ -38,6 +38,7 @@ export class TasksComponent implements OnInit, AfterViewInit{
 
   @Input() tasks!: TaskType[]
   @Input() optionTemplate!: TemplateRef<any>
+  @Output() updateTask = new EventEmitter<TaskType>()
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource()

@@ -8,7 +8,7 @@ import {DataHandlerService} from "./services/data-handler.service";
 import {TasksComponent} from "./views/tasks/tasks.component";
 import {TaskDAOArray} from "./data/dao/implements/TaskDAOArray";
 import {CategoryDAOArray} from "./data/dao/implements/CategoryDAOArray";
-import {CategoryType} from "./data/TestData";
+import {CategoryType, TaskType} from "./data/TestData";
 
 @Component({
   selector: 'app-root',
@@ -39,4 +39,9 @@ export class AppComponent implements OnInit{
       .searchTasks(this.selectedCategory, null, null, null)
       .pipe(tap(() => this.cdRef.detectChanges()))
   }
+
+  onUpdateTask(task: TaskType): void{
+    console.log('task', task)
+  }
+
 }

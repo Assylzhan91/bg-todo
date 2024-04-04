@@ -93,7 +93,12 @@
                 <h4 class="card-title text-center">List og task</h4>
               </div>
               <div class="card-body table-responsive">
-                <app-tasks *ngIf="tasks$ | async as tasks; else loading" [tasks]="tasks" [optionTemplate]="loading">
+                <app-tasks
+                  *ngIf="tasks$ | async as tasks; else loading"
+                  [tasks]="tasks"
+                  [optionTemplate]="loading"
+                  (updateTask)="onUpdateTask($event)"
+                >
                 </app-tasks>
               </div>
             </div>
