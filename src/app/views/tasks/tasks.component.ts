@@ -1,17 +1,25 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  Component, EventEmitter, Input,
-  OnInit, Output, TemplateRef,
-  ViewChild
+  AfterViewInit,
+  EventEmitter,
+  TemplateRef,
+  ViewChild,
+  Component,
+  Output,
+  inject,
+  Input,
+  OnInit, OnDestroy
 } from '@angular/core';
-import {CommonModule, NgFor} from '@angular/common';
-import {FormsModule} from "@angular/forms";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
+import {CommonModule, NgFor} from '@angular/common';
+import {MatDialog} from "@angular/material/dialog";
+import {FormsModule} from "@angular/forms";
 
+import {EditTaskComponent} from "../../dialogs/edit-task-dialog/edit-task.component";
 import {TaskType} from "../../data/TestData";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-tasks',
@@ -28,8 +36,12 @@ import {TaskType} from "../../data/TestData";
   styleUrl: './tasks.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TasksComponent implements OnInit, AfterViewInit{
+export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
+  dialog = inject(MatDialog)
+
   displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category']
+
+  destroy$ = new Subject<void>()
 
   dataSource!: MatTableDataSource<TaskType>
 
@@ -38,6 +50,7 @@ export class TasksComponent implements OnInit, AfterViewInit{
 
   @Input() tasks!: TaskType[]
   @Input() optionTemplate!: TemplateRef<any>
+  
   @Output() updateTask = new EventEmitter<TaskType>()
 
   ngOnInit(): void {
@@ -65,13 +78,13 @@ export class TasksComponent implements OnInit, AfterViewInit{
     this.addTableObjects()
     this.dataSource.sortingDataAccessor = (task: TaskType, colName) =>{
       switch (colName) {
-        case 'priority': return task.priority?.id || null
+        case 'priority': return task.priority?.id || ''
 
-        case 'category': return task.category?.id || null
+        case 'category': return task.category?.id || ''
 
-        case 'date': return Number(task?.date) || null
+        case 'date': return Number(task?.date) || ''
 
-        default: return null
+        default: return ''
       }
     }
   }
@@ -79,5 +92,22 @@ export class TasksComponent implements OnInit, AfterViewInit{
   addTableObjects(): void{
     this.dataSource.sort = this.sort
     this.dataSource.paginator = this.paginator
+  }
+
+  openEditTaskDialog(task: TaskType): void{
+    let dialogRef =  this.dialog.open(EditTaskComponent, {
+      data: [task, 'Edit task'],
+      autoFocus: false
+    })
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(()=> {
+        console.log('afterClosed')
+      })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

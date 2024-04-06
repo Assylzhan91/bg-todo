@@ -2,35 +2,39 @@
   <table class="table table-hover" [dataSource]="dataSource" mat-table matSort>
     <ng-container matColumnDef="color">
       <th *matHeaderCellDef mat-header-cell></th>
-      <th mat-cell *matCellDef="let task" [style.background-color]="getPriorityColor(task)"></th>
+      <td mat-cell *matCellDef="let task" [style.background-color]="getPriorityColor(task)"></td>
     </ng-container>
     <ng-container matColumnDef="id">
       <th *matHeaderCellDef mat-header-cell></th>
-      <th mat-cell *matCellDef="let idx = index">{{ idx + 1 }}</th>
+      <td mat-cell *matCellDef="let idx = index">{{ idx + 1 }}</td>
     </ng-container>
     <ng-container matColumnDef="title">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Title</th>
-      <th mat-cell *matCellDef="let task" [class.completed]="task.completed">{{ task .title }}</th>
+      <td
+        mat-cell *matCellDef="let task"
+        [class.completed]="task.completed"
+        (click)="openEditTaskDialog(task)"
+      >{{ task .title }}</td>
     </ng-container>
     <ng-container matColumnDef="date">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
-      <th mat-cell *matCellDef="let task" [ngClass]="{
+      <td mat-cell *matCellDef="let task" [ngClass]="{
       'completed': task.completed, 'no-date': task.data == null
-      }">{{ task .date | date: "medium" }}</th>
+      }">{{ task .date | date: "medium" }}</td>
     </ng-container>
     <ng-container matColumnDef="priority">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Priority</th>
-      <th mat-cell *matCellDef="let task"  [ngClass]="{
+      <td mat-cell *matCellDef="let task"  [ngClass]="{
       'completed': task.completed, 'priority': task.priority == null}">
         {{ task.priority ? task.priority?.title : 'No priority' }}
-      </th>
+      </td>
     </ng-container>
     <ng-container matColumnDef="category">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Category</th>
-      <th mat-cell *matCellDef="let task"  [ngClass]="{
+      <td mat-cell *matCellDef="let task"  [ngClass]="{
       'completed': task.completed, 'category': task.category == null}">
         {{ task.priority ? task.category?.title : 'No category' }}
-      </th>
+      </td>
     </ng-container>
     <tr *matHeaderRowDef="displayedColumns" mat-header-row ></tr>
     <tr

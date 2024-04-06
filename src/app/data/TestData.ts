@@ -12,6 +12,7 @@ export type TaskType = CategoryType & {
   priority?: PriorityType;
   category?: CategoryType;
   date?: Date;
+  isRed?: boolean
 }
 
 
