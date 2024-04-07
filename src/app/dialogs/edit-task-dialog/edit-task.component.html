@@ -1,1 +1,31 @@
-<p>{{task.title}}</p>
+<mat-dialog-content>
+  <p  mat-dialog-title>{{ dialogTitle }}</p>
+  <mat-form-field>
+    <mat-label>Title (not required)</mat-label>
+    <input
+      matInput
+      [(ngModel)]="tmpTitle"
+      (keydown.enter)="onConfirm()"
+    >
+    <button
+      *ngIf="tmpTitle.trim().length > 0"
+      (click)="tmpTitle = ''"
+      class="dialog-task-title"
+      matSuffix
+      aria-label="clear"
+      mat-icon-button
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-raised-button
+    (click)="onConfirm()"
+    [disabled]="!tmpTitle.trim().length"
+    color="primary"
+  >Save</button>
+  <button mat-raised-button (click)="dialogRef.close()" >Cancel</button>
+</mat-dialog-actions>

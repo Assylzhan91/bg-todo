@@ -50,7 +50,7 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
 
   @Input() tasks!: TaskType[]
   @Input() optionTemplate!: TemplateRef<any>
-  
+
   @Output() updateTask = new EventEmitter<TaskType>()
 
   ngOnInit(): void {
@@ -101,9 +101,7 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
     })
     dialogRef.afterClosed()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(()=> {
-        console.log('afterClosed')
-      })
+      .subscribe((task: TaskType)=>this.updateTask.emit(task))
   }
 
   ngOnDestroy(): void {
