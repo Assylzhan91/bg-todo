@@ -1,6 +1,6 @@
 import {TaskDAO} from "../interfaces/TaskDAO";
 import {Task} from "../../../models/task";
-import {Observable, of} from "rxjs";
+import {EMPTY, Observable, of} from "rxjs";
 import {Category} from "../../../models/category";
 import {Priority} from "../../../models/priority";
 import {TaskType, TestData} from "../../TestData";
@@ -48,8 +48,14 @@ export class TaskDAOArray implements TaskDAO {
     )
   }
 
-  update(item: Task): Observable<Task> | unknown{
-    return undefined;
+  update(task: Task): Observable<Task>{
+    const taskTmp = TestData.tasks.find(t => t.id == task.id)
+    if (taskTmp){
+      TestData.tasks.splice(TestData.tasks.indexOf(taskTmp), 1, task)
+      return of(task);
+    }
+    return EMPTY
+
   }
 
 

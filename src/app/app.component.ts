@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {tap} from "rxjs";
+import {switchMap, tap} from "rxjs";
 
 import {CategoriesComponent} from "./views/categories/categories.component";
 import {CategoryDAOArray} from "./data/dao/implements/CategoryDAOArray";
@@ -44,7 +44,13 @@ export class AppComponent implements OnInit{
   }
 
   onUpdateTask(task: TaskType): void{
-    console.log('task', task)
+    this.tasks$ = this.dataHandlerService
+      .updateTask(task)
+      .pipe(
+        switchMap(()=> {
+          return this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
+        })
+      )
   }
 
 }
