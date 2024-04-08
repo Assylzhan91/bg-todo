@@ -217,5 +217,5 @@
 </div>
 
 <ng-template #loading let-list="list">
-  <p class="text-center text-gray">{{ !list ? 'Loading...' : 'Empty' }}</p>
+  <app-loading [loading]="!list"></app-loading>
 </ng-template>

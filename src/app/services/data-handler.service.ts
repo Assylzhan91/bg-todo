@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {BehaviorSubject, delay, Observable} from "rxjs";
+import { delay, Observable} from "rxjs";
 
 import {CategoryType, TaskType} from '../data/TestData';
 import {TaskDAOArray} from "../data/dao/implements/TaskDAOArray";
@@ -12,7 +12,7 @@ export class DataHandlerService {
   taskDAOArray =  inject(TaskDAOArray)
   categoryDAOArray =  inject(CategoryDAOArray)
 
-  getAllCategories$ = this.categoryDAOArray.getAll().pipe(delay(500))
+  getAllCategories$ = this.categoryDAOArray.getAll().pipe(delay(2000))
   getAllTasks$ = this.taskDAOArray.getAll().pipe(delay(300))
 
   searchTasks(
