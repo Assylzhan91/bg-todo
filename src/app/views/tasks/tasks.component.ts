@@ -3,23 +3,27 @@ import {
   AfterViewInit,
   EventEmitter,
   TemplateRef,
+  OnDestroy,
   ViewChild,
   Component,
+  OnInit,
   Output,
   inject,
   Input,
-  OnInit, OnDestroy
 } from '@angular/core';
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {CommonModule, NgFor} from '@angular/common';
 import {MatDialog} from "@angular/material/dialog";
+import {filter, Subject, takeUntil} from "rxjs";
 import {FormsModule} from "@angular/forms";
 
 import {EditTaskComponent} from "../../dialogs/edit-task-dialog/edit-task.component";
 import {TaskType} from "../../data/TestData";
-import {Subject, takeUntil} from "rxjs";
+import {DataHandlerService} from "../../services/data-handler.service";
+import {TaskDAOArray} from "../../data/dao/implements/TaskDAOArray";
+import {CategoryDAOArray} from "../../data/dao/implements/CategoryDAOArray";
 
 @Component({
   selector: 'app-tasks',
@@ -35,6 +39,10 @@ import {Subject, takeUntil} from "rxjs";
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    DataHandlerService,
+    TaskDAOArray, CategoryDAOArray
+  ]
 })
 export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
   dialog = inject(MatDialog)
@@ -100,7 +108,10 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
       autoFocus: false
     })
     dialogRef.afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        filter((task)=> !!task),
+        takeUntil(this.destroy$)
+      )
       .subscribe((task: TaskType)=>this.updateTask.emit(task))
   }
 

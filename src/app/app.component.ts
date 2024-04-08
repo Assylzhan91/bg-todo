@@ -9,6 +9,7 @@ import {DataHandlerService} from "./services/data-handler.service";
 import {TaskDAOArray} from "./data/dao/implements/TaskDAOArray";
 import {TasksComponent} from "./views/tasks/tasks.component";
 import {CategoryType, TaskType} from "./data/TestData";
+import {LoadingComponent} from "./shared/components/loading/loading.component";
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import {CategoryType, TaskType} from "./data/TestData";
     RouterOutlet,
     CategoriesComponent,
     TasksComponent,
+    LoadingComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

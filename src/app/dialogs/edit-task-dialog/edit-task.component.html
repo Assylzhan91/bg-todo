@@ -18,6 +18,15 @@
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
+  <mat-form-field *ngIf="categories$ | async as categories; else loading">
+    <mat-label>Select or change category</mat-label>
+    <mat-select [(ngModel)]="task.category">
+      <mat-option [value]="null">No Category</mat-option>
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{ category.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>
@@ -29,3 +38,7 @@
   >Save</button>
   <button mat-raised-button (click)="dialogRef.close()" >Cancel</button>
 </mat-dialog-actions>
+
+<ng-template #loading>
+  <app-loading [loading]="true"></app-loading>
+</ng-template>
