@@ -12,7 +12,8 @@ export class DataHandlerService {
   taskDAOArray =  inject(TaskDAOArray)
   categoryDAOArray =  inject(CategoryDAOArray)
 
-  getAllCategories$ = this.categoryDAOArray.getAll().pipe(delay(2000))
+  getAllCategories$ = this.categoryDAOArray.getAllCategory().pipe(delay(1000))
+  getAllPriorities$ = this.categoryDAOArray.getAllPriorities().pipe(delay(1500))
   getAllTasks$ = this.taskDAOArray.getAll().pipe(delay(300))
 
   searchTasks(
