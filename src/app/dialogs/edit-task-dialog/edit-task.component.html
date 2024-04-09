@@ -27,6 +27,15 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field *ngIf="priorities$ | async as priorities; else loading">
+    <mat-label>Select or change priority</mat-label>
+    <mat-select [(ngModel)]="task.priority">
+      <mat-option [value]="null">No Priority</mat-option>
+      <mat-option *ngFor="let priority of priorities" [value]="priority">
+        {{ priority.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>

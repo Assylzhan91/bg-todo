@@ -45,6 +45,7 @@ export class EditTaskComponent {
   data = inject(MAT_DIALOG_DATA)
 
   categories$: Observable<Category[]> = this.dataHandlerService.getAllCategories$
+  priorities$: Observable<Category[]> = this.dataHandlerService.getAllPriorities$
 
   task: TaskType = this.data[0]
   dialogTitle: TaskType = this.data[1]
