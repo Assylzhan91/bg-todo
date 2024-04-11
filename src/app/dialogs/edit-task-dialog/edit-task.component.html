@@ -18,20 +18,20 @@
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
-  <mat-form-field *ngIf="categories$ | async as categories; else loading">
+  <mat-form-field *ngIf="(combined$ | async)?.allCategories as allCategories; else loading">
     <mat-label>Select or change category</mat-label>
     <mat-select [(ngModel)]="task.category">
       <mat-option [value]="null">No Category</mat-option>
-      <mat-option *ngFor="let category of categories" [value]="category">
+      <mat-option *ngFor="let category of allCategories" [value]="category">
         {{ category.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field *ngIf="priorities$ | async as priorities; else loading">
+  <mat-form-field *ngIf="(combined$ | async)?.allPriorities as allPriorities; else loading">
     <mat-label>Select or change priority</mat-label>
     <mat-select [(ngModel)]="task.priority">
       <mat-option [value]="null">No Priority</mat-option>
-      <mat-option *ngFor="let priority of priorities" [value]="priority">
+      <mat-option *ngFor="let priority of allPriorities" [value]="priority">
         {{ priority.title }}
       </mat-option>
     </mat-select>
@@ -46,6 +46,9 @@
     color="primary"
   >Save</button>
   <button mat-raised-button (click)="dialogRef.close()" >Cancel</button>
+  <button mat-raised-button (click)="onDelete()" color="warn">
+    Delete
+  </button>
 </mat-dialog-actions>
 
 <ng-template #loading>

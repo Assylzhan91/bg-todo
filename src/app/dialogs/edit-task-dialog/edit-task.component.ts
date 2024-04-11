@@ -6,21 +6,22 @@ import {MatInput} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
-import {Observable} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 
 import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {LoadingComponent} from "../../shared/components/loading/loading.component";
 import {CategoryDAOArray} from "../../data/dao/implements/CategoryDAOArray";
 import {DataHandlerService} from "../../services/data-handler.service";
 import {TaskDAOArray} from "../../data/dao/implements/TaskDAOArray";
 import {Category} from "../../models/category";
 import {TaskType} from "../../data/TestData";
-import {LoadingComponent} from "../../shared/components/loading/loading.component";
 
 @Component({
   selector: 'dialog-edit-task',
   standalone: true,
   imports: [
     MatFormFieldModule,
+    LoadingComponent,
     MatDialogModule,
     MatIconButton,
     CommonModule,
@@ -32,7 +33,6 @@ import {LoadingComponent} from "../../shared/components/loading/loading.componen
     MatLabel,
     MatInput,
     MatIcon,
-    LoadingComponent,
   ],
   templateUrl: './edit-task.component.html',
   styleUrl: './edit-task.component.css',
@@ -51,6 +51,11 @@ export class EditTaskComponent {
   dialogTitle: TaskType = this.data[1]
   tmpTitle: string = this.task.title
 
+  combined$ = forkJoin({
+    allCategories: this.categories$,
+    allPriorities: this.priorities$
+  });
+
 
   onConfirm(): void {
     if (!this.tmpTitle.length) {
@@ -58,7 +63,10 @@ export class EditTaskComponent {
     }
     this.task.title = this.tmpTitle
 
-    this.dialogRef.close(this.task)
+    this.dialogRef.close({task: this.task, typeAction: 'confirm'})
   }
 
+  onDelete(): void {
+    this.dialogRef.close({task: this.task, typeAction:  'remove'})
+  }
 }

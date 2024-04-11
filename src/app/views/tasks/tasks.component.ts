@@ -20,10 +20,11 @@ import {filter, Subject, takeUntil} from "rxjs";
 import {FormsModule} from "@angular/forms";
 
 import {EditTaskComponent} from "../../dialogs/edit-task-dialog/edit-task.component";
-import {TaskType} from "../../data/TestData";
+import {CategoryDAOArray} from "../../data/dao/implements/CategoryDAOArray";
 import {DataHandlerService} from "../../services/data-handler.service";
 import {TaskDAOArray} from "../../data/dao/implements/TaskDAOArray";
-import {CategoryDAOArray} from "../../data/dao/implements/CategoryDAOArray";
+import {TaskType} from "../../data/TestData";
+import {TypeAction} from "../../models/edit";
 
 @Component({
   selector: 'app-tasks',
@@ -59,7 +60,7 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
   @Input() tasks!: TaskType[]
   @Input() optionTemplate!: TemplateRef<any>
 
-  @Output() updateTask = new EventEmitter<TaskType>()
+  @Output() updateTask = new EventEmitter<{task:  TaskType; typeAction: TypeAction}>()
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource()
@@ -103,7 +104,7 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   openEditTaskDialog(task: TaskType): void{
-    let dialogRef =  this.dialog.open(EditTaskComponent, {
+    let dialogRef =  this.dialog.open<EditTaskComponent>(EditTaskComponent, {
       data: [task, 'Edit task'],
       autoFocus: false
     })
@@ -112,7 +113,9 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
         filter((task)=> !!task),
         takeUntil(this.destroy$)
       )
-      .subscribe((task: TaskType)=>this.updateTask.emit(task))
+      .subscribe(({ task, typeAction})=>{
+        this.updateTask.emit({ task, typeAction})
+      })
   }
 
   ngOnDestroy(): void {

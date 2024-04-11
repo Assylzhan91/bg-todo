@@ -39,7 +39,7 @@
     <tr *matHeaderRowDef="displayedColumns" mat-header-row ></tr>
     <tr
       *matRowDef="let task; columns: displayedColumns"
-      mat-row (click)="updateTask.emit(task)"
+      mat-row
       [style.cursor]="'pointer'"
     ></tr>
   </table>
