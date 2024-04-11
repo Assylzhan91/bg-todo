@@ -3,13 +3,14 @@ import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 import {switchMap, tap} from "rxjs";
 
+import {LoadingComponent} from "./shared/components/loading/loading.component";
 import {CategoriesComponent} from "./views/categories/categories.component";
 import {CategoryDAOArray} from "./data/dao/implements/CategoryDAOArray";
 import {DataHandlerService} from "./services/data-handler.service";
 import {TaskDAOArray} from "./data/dao/implements/TaskDAOArray";
 import {TasksComponent} from "./views/tasks/tasks.component";
 import {CategoryType, TaskType} from "./data/TestData";
-import {LoadingComponent} from "./shared/components/loading/loading.component";
+import {TypeAction} from "./models/edit";
 
 @Component({
   selector: 'app-root',
@@ -45,14 +46,23 @@ export class AppComponent implements OnInit{
       .pipe(tap(() => this.cdRef.detectChanges()))
   }
 
-  onUpdateTask(task: TaskType): void{
-    this.tasks$ = this.dataHandlerService
-      .updateTask(task)
-      .pipe(
-        switchMap(()=> {
-          return this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)
-        })
-      )
+  onUpdateTask(event: {task: TaskType, typeAction: TypeAction}): void{
+    const {typeAction, task} = event
+    if  (typeAction === 'confirm'){
+      this.tasks$ = this.dataHandlerService
+        .updateTask(task)
+        .pipe(
+          switchMap(()=>this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null))
+        )
+    }
+    if (typeAction === 'remove') {
+      this.tasks$ = this.dataHandlerService
+        .deleteTask(task.id)
+        .pipe(
+          switchMap(()=> this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null)),
+          tap(() => this.cdRef.detectChanges())
+        )
+    }
   }
 
 }

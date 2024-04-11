@@ -15,8 +15,9 @@ export class TaskDAOArray implements TaskDAO {
     return undefined;
   }
 
-  delete(id: number): Observable<Task> | unknown{
-    return undefined;
+  delete(id: number): Observable<Task[]>{
+    TestData.tasks = TestData.tasks.filter(task => task.id !== id)
+    return of(TestData.tasks)
   }
 
   get(id: number): Observable<Task> | unknown{
