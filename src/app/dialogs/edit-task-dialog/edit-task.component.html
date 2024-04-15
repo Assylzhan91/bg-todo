@@ -18,23 +18,46 @@
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
-  <mat-form-field *ngIf="(combined$ | async)?.allCategories as allCategories; else loading">
-    <mat-label>Select or change category</mat-label>
-    <mat-select [(ngModel)]="task.category">
-      <mat-option [value]="null">No Category</mat-option>
-      <mat-option *ngFor="let category of allCategories" [value]="category">
-        {{ category.title }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field *ngIf="(combined$ | async)?.allPriorities as allPriorities; else loading">
-    <mat-label>Select or change priority</mat-label>
-    <mat-select [(ngModel)]="task.priority">
-      <mat-option [value]="null">No Priority</mat-option>
-      <mat-option *ngFor="let priority of allPriorities" [value]="priority">
-        {{ priority.title }}
-      </mat-option>
-    </mat-select>
+  <ng-container *ngIf="combined$ | async as data; else loading">
+    <mat-form-field>
+      <mat-label>Select or change category</mat-label>
+      <mat-select [(ngModel)]="task.category">
+        <mat-option [value]="null">No Category</mat-option>
+        <mat-option *ngFor="let category of data[0]" [value]="category">
+          {{ category.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select or change priority</mat-label>
+      <mat-select [(ngModel)]="task.priority">
+        <mat-option [value]="null">No Priority</mat-option>
+        <mat-option *ngFor="let priority of data[1]" [value]="priority">
+          {{ priority.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input
+      #inputDate
+      placeholder="Specify completed a date"
+      (click)="picker.open()"
+      [matDatepicker]="picker"
+      [(ngModel)]="tmpDate"
+      matInput
+    >
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <button
+      *ngIf="inputDate.value.length"
+      matSuffix mat-button aria-label="clear"
+      (click)="tmpDate = undefined"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
   </mat-form-field>
 </mat-dialog-content>
 
@@ -45,6 +68,7 @@
     [disabled]="!tmpTitle.trim().length"
     color="primary"
   >Save</button>
+  <button mat-raised-button (click)="completeTask()" >{{ task.completed ? 'Activate' : 'Complete the task'}} </button>
   <button mat-raised-button (click)="dialogRef.close()" >Cancel</button>
   <button mat-raised-button (click)="onDelete()" color="warn">
     Delete

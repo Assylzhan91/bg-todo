@@ -63,6 +63,14 @@ export class AppComponent implements OnInit{
           tap(() => this.cdRef.detectChanges())
         )
     }
+    if (typeAction === 'complete') {
+      task.completed = !task.completed
+      this.tasks$ = this.dataHandlerService
+        .updateTask(task)
+        .pipe(
+          switchMap(()=>this.dataHandlerService.searchTasks(this.selectedCategory, null, null, null))
+        )
+    }
   }
 
 }
