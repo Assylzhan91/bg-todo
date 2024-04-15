@@ -69,4 +69,8 @@ export class EditTaskComponent {
   onDelete(): void {
     this.dialogRef.close({task: this.task, typeAction:  'remove'})
   }
+
+  completeTask(): void {
+    this.dialogRef.close({task: this.task, typeAction: 'complete'})
+  }
 }

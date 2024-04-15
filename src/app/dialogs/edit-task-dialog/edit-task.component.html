@@ -45,6 +45,7 @@
     [disabled]="!tmpTitle.trim().length"
     color="primary"
   >Save</button>
+  <button mat-raised-button (click)="completeTask()" >{{ task.completed ? 'Activate' : 'Complete the task'}} </button>
   <button mat-raised-button (click)="dialogRef.close()" >Cancel</button>
   <button mat-raised-button (click)="onDelete()" color="warn">
     Delete
