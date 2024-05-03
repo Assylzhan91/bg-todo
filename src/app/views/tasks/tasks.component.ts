@@ -11,18 +11,19 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatSort, MatSortModule} from "@angular/material/sort";
 import {CommonModule, NgFor} from '@angular/common';
 import {MatDialog} from "@angular/material/dialog";
 import {filter, Subject, takeUntil} from "rxjs";
 import {FormsModule} from "@angular/forms";
 
-import {EditTaskComponent} from "../../dialogs/edit-task-dialog/edit-task.component";
+import {EditTaskComponent} from "@dialogs/edit-task-dialog/edit-task.component";
 import {CategoryDAOArray} from "../../data/dao/implements/CategoryDAOArray";
 import {DataHandlerService} from "../../services/data-handler.service";
 import {TaskDAOArray} from "../../data/dao/implements/TaskDAOArray";
+import {TaskDatePipe} from "@pipes/task-date.pipe";
 import {TaskType} from "../../data/TestData";
 import {TypeAction} from "../../models/edit";
 
@@ -34,6 +35,7 @@ import {TypeAction} from "../../models/edit";
     MatTableModule,
     MatSortModule,
     CommonModule,
+    TaskDatePipe,
     FormsModule,
     NgFor,
   ],

@@ -20,7 +20,7 @@
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
       <td mat-cell *matCellDef="let task" [ngClass]="{
       'completed': task.completed, 'no-date': task.data == null
-      }">{{ task .date | date: "medium" }}</td>
+      }">{{ task .date | taskDate }}</td>
     </ng-container>
     <ng-container matColumnDef="priority">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Priority</th>

@@ -15,8 +15,8 @@ import {LoadingComponent} from "../../shared/components/loading/loading.componen
 import {CategoryDAOArray} from "../../data/dao/implements/CategoryDAOArray";
 import {DataHandlerService} from "../../services/data-handler.service";
 import {TaskDAOArray} from "../../data/dao/implements/TaskDAOArray";
-import {Category} from "../../models/category";
 import {PriorityType, TaskType} from "../../data/TestData";
+import {Category} from "../../models/category";
 
 
 @Component({
