@@ -36,6 +36,27 @@
         {{ task.priority ? task.category?.title : 'No category' }}
       </td>
     </ng-container>
+    <ng-container matColumnDef="operation">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td mat-cell *matCellDef="let task"  [class.completed]="task.completed">
+        <button mat-icon-button (click)="actionTask(task, 'remove')" class="delete-icon">
+          <mat-icon aria-hidden="false">delete</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openEditTaskDialog(task)" class="edit-icon">
+          <mat-icon aria-hidden="false">edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="select">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td class="col-select text-right" mat-cell *matCellDef="let task">
+        <mat-checkbox
+          [checked]="task.completed"
+          (change)="actionTask(task, 'complete')"
+        ></mat-checkbox>
+      </td>
+    </ng-container>
+
     <tr *matHeaderRowDef="displayedColumns" mat-header-row ></tr>
     <tr
       *matRowDef="let task; columns: displayedColumns"
