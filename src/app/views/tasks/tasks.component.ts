@@ -14,9 +14,12 @@ import {
 import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatSort, MatSortModule} from "@angular/material/sort";
+import {MatIconButton} from "@angular/material/button";
+import {MatCheckbox} from "@angular/material/checkbox";
 import {CommonModule, NgFor} from '@angular/common';
 import {MatDialog} from "@angular/material/dialog";
 import {filter, Subject, takeUntil} from "rxjs";
+import {MatIcon} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";
 
 import {EditTaskComponent} from "@dialogs/edit-task-dialog/edit-task.component";
@@ -24,8 +27,8 @@ import {CategoryDAOArray} from "../../data/dao/implements/CategoryDAOArray";
 import {DataHandlerService} from "../../services/data-handler.service";
 import {TaskDAOArray} from "../../data/dao/implements/TaskDAOArray";
 import {TaskDatePipe} from "@pipes/task-date.pipe";
+import { typeAction } from "../../models/edit";
 import {TaskType} from "../../data/TestData";
-import {TypeAction} from "../../models/edit";
 
 @Component({
   selector: 'app-tasks',
@@ -34,9 +37,12 @@ import {TypeAction} from "../../models/edit";
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,
+    MatIconButton,
     CommonModule,
     TaskDatePipe,
+    MatCheckbox,
     FormsModule,
+    MatIcon,
     NgFor,
   ],
   templateUrl: './tasks.component.html',
@@ -50,19 +56,20 @@ import {TypeAction} from "../../models/edit";
 export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
   dialog = inject(MatDialog)
 
-  displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category']
+  displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operation', 'select' ]
 
   destroy$ = new Subject<void>()
 
   dataSource!: MatTableDataSource<TaskType>
 
-  @ViewChild(MatPaginator, {static: false}) private paginator!: MatPaginator
-  @ViewChild(MatSort, {static: false}) private sort!: MatSort
-
   @Input() tasks!: TaskType[]
   @Input() optionTemplate!: TemplateRef<any>
 
-  @Output() updateTask = new EventEmitter<{task:  TaskType; typeAction: TypeAction}>()
+  @Output() updateTask = new EventEmitter<{task:  TaskType; typeAction: typeof typeAction[number]}>()
+
+  @ViewChild(MatPaginator, {static: false}) private paginator!: MatPaginator
+  @ViewChild(MatSort, {static: false}) private sort!: MatSort
+
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource()
@@ -110,7 +117,8 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
       data: [task, 'Edit task'],
       autoFocus: false
     })
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(
         filter((task)=> !!task),
         takeUntil(this.destroy$)
@@ -118,6 +126,10 @@ export class TasksComponent implements OnInit, AfterViewInit, OnDestroy{
       .subscribe(({ task, typeAction})=>{
         this.updateTask.emit({ task, typeAction})
       })
+  }
+
+  actionTask(task: TaskType, action: typeof typeAction[number]): void {
+    this.updateTask.emit({ task, typeAction: action})
   }
 
   ngOnDestroy(): void {

@@ -10,7 +10,7 @@ import {DataHandlerService} from "./services/data-handler.service";
 import {TaskDAOArray} from "./data/dao/implements/TaskDAOArray";
 import {TasksComponent} from "./views/tasks/tasks.component";
 import {CategoryType, TaskType} from "./data/TestData";
-import {TypeAction} from "./models/edit";
+import {typeAction} from "./models/edit";
 
 @Component({
   selector: 'app-root',
@@ -46,7 +46,7 @@ export class AppComponent implements OnInit{
       .pipe(tap(() => this.cdRef.detectChanges()))
   }
 
-  onUpdateTask(event: {task: TaskType, typeAction: TypeAction}): void{
+  onUpdateTask(event: {task: TaskType, typeAction: typeof typeAction[number]}): void{
     const {typeAction, task} = event
     if  (typeAction === 'confirm'){
       this.tasks$ = this.dataHandlerService
