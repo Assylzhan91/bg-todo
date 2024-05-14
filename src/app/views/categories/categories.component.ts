@@ -1,29 +1,34 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
-import {CommonModule, NgFor} from '@angular/common';
+import {CommonModule} from '@angular/common'
+import {
+  ChangeDetectionStrategy,
+  EventEmitter,
+  TemplateRef,
+  OnChanges,
+  Component,
+  Output,
+  Input,
+} from '@angular/core'
 
-import {CategoryType} from "../../data/TestData";
-import {Category} from "../../models/category";
+import {CategoryType} from '../../data/TestData'
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, NgFor],
+  imports: [CommonModule],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: 'categoriesComponent',
 })
-export class CategoriesComponent implements OnInit{
-  @Input() categories!: CategoryType[]
-  @Input() optionTemplate!: TemplateRef<any>
+export class CategoriesComponent implements OnChanges {
+  @Input() categories!: CategoryType[] | null
+  @Input() optionTemplate!: TemplateRef<unknown>
+  @Input() selectedCategory!: CategoryType
+
+  @Output() selectedCategoryHandler = new EventEmitter<CategoryType>()
+
   selectedCategories!: CategoryType
 
-  @Output() selectedCategory = new EventEmitter<CategoryType>()
-
-  ngOnInit(): void {}
-
-  showTaskByCategory(category: Category): void {
-    this.selectedCategories = category
-    this.selectedCategory.emit(category)
+  ngOnChanges(): void {
+    this.selectedCategories = this.selectedCategory
   }
-
 }

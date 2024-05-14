@@ -6,12 +6,11 @@
         </a>
       </div>
       <div class="sidebar-wrapper">
-        <app-categories
-          *ngIf="categories$ | async as categories; else loading"
-          [categories]="categories" [optionTemplate]="loading"
-          (selectedCategory)="onSelectCategory($event)"
-        >
-        </app-categories>
+          <app-categories
+            [categories]="categories" [optionTemplate]="loading"
+            (selectedCategoryHandler)="onSelectCategory($event)"
+            [selectedCategory]="selectedCategory"
+          />
       </div>
     </div>
   <div class="main-panel">
@@ -92,14 +91,14 @@
               <div class="card-header card-header-warning">
                 <h4 class="card-title text-center">List og task</h4>
               </div>
-              <div class="card-body table-responsive">
+              <div class="card-body table-responsive" >
                 <app-tasks
                   *ngIf="tasks$ | async as tasks; else loading"
                   [tasks]="tasks"
                   [optionTemplate]="loading"
                   (updateTask)="onUpdateTask($event)"
-                >
-                </app-tasks>
+                  (actionCategory)="onSelectCategory($event)"
+                />
               </div>
             </div>
           </div>
@@ -185,12 +184,6 @@
         <a class="btn btn-primary btn-block" href="https://www.creative-tim.com/product/material-dashboard"
            target="_blank">Free Download</a>
       </li>
-      <!-- <li class="header-title">Want more components?</li>
-          <li class="button-container">
-              <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
-                Get the pro version
-              </a>
-          </li> -->
       <li class="button-container">
         <a class="btn btn-default btn-block"
            href="https://demos.creative-tim.com/material-dashboard/docs/2.1/getting-started/introduction.html"
@@ -217,5 +210,5 @@
 </div>
 
 <ng-template #loading let-list="list">
-  <app-loading [loading]="!list"></app-loading>
+  <app-loading [loading]="!list"/>
 </ng-template>

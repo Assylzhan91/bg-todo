@@ -1,17 +1,19 @@
-<ul class="nav" *ngIf="categories.length; else empty">
-  <li
-    *ngFor="let category of categories;" class="nav-item cursor-pointer"
-    (click)="showTaskByCategory(category)"
-    [class.active]="category === selectedCategories"
-    [class.no-cursor-pointer]="category === selectedCategories"
-  >
-    <a class="nav-link">
-      <i class="material-icons">dashboard</i>
-      <p>{{ category.title }}</p>
-    </a>
-  </li>
-</ul>
-
-<ng-template #empty>
+@if(categories?.length) {
+  <ul class="nav">
+    @for(category of categories; track category) {
+      <li
+        class="nav-item cursor-pointer"
+        (click)="selectedCategoryHandler.emit(category)"
+        [class.active]="category === selectedCategories"
+        [class.no-cursor-pointer]="category === selectedCategories"
+      >
+        <a class="nav-link">
+          <i class="material-icons">dashboard</i>
+          <p>{{ category.title }}</p>
+        </a>
+      </li>
+    }
+  </ul>
+} @else {
   <ng-container *ngTemplateOutlet="optionTemplate; context: { list: categories }"></ng-container>
-</ng-template>
+}
