@@ -1,15 +1,22 @@
 @if(categories?.length) {
   <ul class="nav">
-    @for(category of categories; track category) {
+    @for(category of categories; track category; let index = $index) {
       <li
-        class="nav-item cursor-pointer"
+        class="nav-item pointer"
         (click)="selectedCategoryHandler.emit(category)"
         [class.active]="category === selectedCategories"
         [class.no-cursor-pointer]="category === selectedCategories"
+        (mouseenter)="showEditIcon(index)"
+        (mouseleave)="showEditIcon(null)"
       >
-        <a class="nav-link">
+        <a class="nav-link d-flex">
           <i class="material-icons">dashboard</i>
-          <p>{{ category.title }}</p>
+          <span class="category-title">{{ category.title }}</span>
+          <span class="edit-category-icon-area">
+            @if(indexMouseMove === index){
+              <mat-icon class="edit-category-icon">edit</mat-icon>
+            }
+          </span>
         </a>
       </li>
     }
