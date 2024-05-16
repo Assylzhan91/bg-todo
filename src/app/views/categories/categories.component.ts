@@ -10,14 +10,15 @@ import {
 } from '@angular/core'
 
 import {CategoryType} from '../../data/TestData'
+import {MatIcon} from '@angular/material/icon'
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIcon],
   templateUrl: './categories.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  exportAs: 'categoriesComponent',
+  styleUrl: './categories.component.css',
 })
 export class CategoriesComponent implements OnChanges {
   @Input() categories!: CategoryType[] | null
@@ -27,8 +28,13 @@ export class CategoriesComponent implements OnChanges {
   @Output() selectedCategoryHandler = new EventEmitter<CategoryType>()
 
   selectedCategories!: CategoryType
+  indexMouseMove!: null | number | undefined
 
   ngOnChanges(): void {
     this.selectedCategories = this.selectedCategory
+  }
+
+  showEditIcon(index?: number | null): void {
+    this.indexMouseMove = index && index
   }
 }
