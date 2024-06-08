@@ -26,6 +26,7 @@ export class CategoriesComponent implements OnChanges {
   @Input() selectedCategory!: CategoryType
 
   @Output() selectedCategoryHandler = new EventEmitter<CategoryType>()
+  @Output() openEditCategoryDialog = new EventEmitter<CategoryType>()
 
   selectedCategories!: CategoryType
   indexMouseMove!: null | number | undefined

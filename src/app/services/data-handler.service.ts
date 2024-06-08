@@ -6,6 +6,7 @@ import {TaskDAOArray} from '../data/dao/implements/TaskDAOArray'
 import {CategoryDAOArray} from '../data/dao/implements/CategoryDAOArray'
 import {Priority} from '../models/priority'
 import {Task} from '../models/task'
+import {Category} from '../models/category'
 
 @Injectable()
 export class DataHandlerService {
@@ -29,7 +30,15 @@ export class DataHandlerService {
     return this.taskDAOArray.update(task)
   }
 
+  updateCategory(category: CategoryType): Observable<CategoryType> {
+    return this.categoryDAOArray.update(category)
+  }
+
   deleteTask(id: number): Observable<Task[]> {
     return this.taskDAOArray.delete(id)
+  }
+
+  deleteCategory(id: number): Observable<Category[]> {
+    return this.categoryDAOArray.delete(id)
   }
 }
